@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a54bd6">
+    <title>Hồ sơ học sinh | Minh Anh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="profile-page">
+        <div class="sparkle sparkle-one" aria-hidden="true">✦</div>
+        <div class="sparkle sparkle-two" aria-hidden="true">✧</div>
+        <div class="sparkle sparkle-three" aria-hidden="true">✦</div>
+
+        <header class="page-heading">
+            <span class="eyebrow">HỒ SƠ HỌC SINH</span>
+            <h1>Xin chào, <span id="greeting-name">Minh Anh</span>! <span aria-hidden="true">🌷</span></h1>
+            <p>Một chút thông tin đáng yêu về mình</p>
+        </header>
+
+        <article class="profile-card">
+            <div class="portrait-wrap">
+                <img
+                    class="portrait"
+                    id="portrait"
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=500&amp;h=500&amp;q=85"
+                    alt="Ảnh chân dung của Nguyễn Minh Anh"
+                >
+                <span class="portrait-placeholder" id="portrait-placeholder" hidden aria-hidden="true">✿</span>
+                <span class="online-badge" id="portrait-badge"><span aria-hidden="true">✦</span> Học sinh chăm ngoan</span>
+            </div>
+
+            <div class="student-intro">
+                <h2 id="student-name">Nguyễn Minh Anh</h2>
+                <p class="student-meta"><span id="student-class">Lớp 10A2</span> <span id="meta-separator" aria-hidden="true">·</span> <span id="student-school">Trường THPT Ánh Dương</span></p>
+            </div>
+
+            <section class="info-section" aria-labelledby="personal-title">
+                <h3 id="personal-title"><span class="section-icon" aria-hidden="true">✿</span> Thông tin cá nhân</h3>
+                <dl class="info-list">
+                    <div class="info-row">
+                        <dt>Ngày sinh</dt>
+                        <dd id="student-birthday">12 tháng 5, 2009</dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>Giới tính</dt>
+                        <dd id="student-gender">Nữ</dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>Sở thích</dt>
+                        <dd id="student-hobbies">Đọc sách, vẽ và nghe nhạc</dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>Môn yêu thích</dt>
+                        <dd id="student-subjects"><span class="subject-pill">Văn</span><span class="subject-pill">Sinh học</span></dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="contact-section" aria-labelledby="contact-title">
+                <h3 id="contact-title"><span class="section-icon" aria-hidden="true">♡</span> Thông tin liên hệ</h3>
+                <a class="contact-link" id="email-link" href="mailto:minhanh@example.com">
+                    <span class="contact-icon" aria-hidden="true">✉</span>
+                    <span><small>Email</small><span id="student-email">minhanh@example.com</span></span>
+                    <span class="link-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="contact-link" id="phone-link" href="tel:+84901234567">
+                    <span class="contact-icon" aria-hidden="true">☎</span>
+                    <span><small>Điện thoại</small><span id="student-phone">090 123 4567</span></span>
+                    <span class="link-arrow" aria-hidden="true">↗</span>
+                </a>
+            </section>
+
+            <button class="share-toggle" id="share-toggle" type="button" aria-expanded="false" aria-controls="share-panel">↗ Tạo link &amp; mã QR</button>
+            <section class="share-panel" id="share-panel" hidden aria-labelledby="share-title">
+                <h3 id="share-title">Chọn thông tin muốn chia sẻ</h3>
+                <p class="share-warning">Chỉ chọn thông tin bạn đồng ý công khai. Người nhận link hoặc mã QR có thể xem các mục đã chọn.</p>
+                <fieldset class="share-fields">
+                    <legend>Hiển thị trong hồ sơ chia sẻ</legend>
+                    <label><input type="checkbox" value="name"> Họ và tên</label>
+                    <label><input type="checkbox" value="className"> Lớp</label>
+                    <label><input type="checkbox" value="school"> Trường</label>
+                    <label><input type="checkbox" value="photo"> Ảnh đại diện</label>
+                    <label><input type="checkbox" value="birthday"> Ngày sinh</label>
+                    <label><input type="checkbox" value="gender"> Giới tính</label>
+                    <label><input type="checkbox" value="hobbies"> Sở thích</label>
+                    <label><input type="checkbox" value="subjects"> Môn yêu thích</label>
+                    <label><input type="checkbox" value="email"> Email</label>
+                    <label><input type="checkbox" value="phone"> Điện thoại</label>
+                </fieldset>
+                <p class="share-note">Các mục đã chọn được nhúng vào đường dẫn (không mã hóa); đừng chia sẻ dữ liệu nhạy cảm. Ảnh tải lên chỉ lưu trên máy, muốn chia sẻ ảnh cần dùng URL công khai. Trang cần được đăng lên hosting để người khác mở được.</p>
+                <p class="share-message" id="share-message" role="status" aria-live="polite"></p>
+                <div class="share-actions">
+                    <button class="save-button" id="create-share" type="button">Tạo link &amp; QR</button>
+                    <button class="cancel-button" id="close-share" type="button">Đóng</button>
+                </div>
+                <div class="share-result" id="share-result" hidden>
+                    <label class="form-field">
+                        Link chia sẻ
+                        <input id="share-url" type="text" readonly>
+                    </label>
+                    <button class="copy-button" id="copy-share" type="button">Sao chép link</button>
+                    <a class="designer-link" id="open-qr-designer" href="qr-designer.html" target="_blank" rel="noopener">Trang trang trí thẻ QR · tải PNG 54 × 85 mm</a>
+                    <div class="qr-output" id="qr-output" aria-label="Mã QR cho link hồ sơ"></div>
+                </div>
+            </section>
+
+            <button class="edit-toggle" id="edit-toggle" type="button" aria-expanded="false" aria-controls="profile-form">✎ Sửa thông tin</button>
+            <form class="profile-form" id="profile-form" hidden>
+                <h3>Chỉnh sửa hồ sơ</h3>
+                <label class="form-field">
+                    Họ và tên
+                    <input name="name" type="text" maxlength="80" autocomplete="name">
+                </label>
+                <div class="form-grid">
+                    <label class="form-field">
+                        Lớp
+                        <input name="className" type="text" maxlength="30">
+                    </label>
+                    <label class="form-field">
+                        Trường
+                        <input name="school" type="text" maxlength="100">
+                    </label>
+                </div>
+                <div class="form-grid">
+                    <label class="form-field">
+                        Ngày sinh
+                        <input name="birthday" type="date">
+                    </label>
+                    <label class="form-field">
+                        Giới tính
+                        <select name="gender">
+                            <option value="">Chưa chọn</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </label>
+                </div>
+                <label class="form-field">
+                    Sở thích
+                    <input name="hobbies" type="text" maxlength="160">
+                </label>
+                <label class="form-field">
+                    Môn yêu thích <span class="field-hint">(ngăn cách bằng dấu phẩy)</span>
+                    <input name="subjects" type="text" maxlength="120">
+                </label>
+                <label class="form-field">
+                    Email
+                    <input name="email" type="email" maxlength="120" autocomplete="email">
+                </label>
+                <label class="form-field">
+                    Điện thoại
+                    <input name="phone" type="tel" maxlength="24" autocomplete="tel">
+                </label>
+                <label class="form-field">
+                    Đường dẫn ảnh chân dung
+                    <input name="photo" type="url" maxlength="500">
+                </label>
+                <label class="form-field">
+                    Hoặc chọn ảnh từ thiết bị
+                    <input name="photoFile" type="file" accept="image/*">
+                    <span class="field-hint">Ảnh sẽ được tự thu nhỏ và lưu trên trình duyệt này.</span>
+                </label>
+                <img class="photo-preview" id="photo-preview" alt="Xem trước ảnh đại diện" hidden>
+                <button class="cancel-button photo-clear" id="clear-photo" type="button" hidden>Gỡ ảnh đại diện</button>
+                <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+                <div class="form-actions">
+                    <button class="save-button" type="submit">Lưu thông tin</button>
+                    <button class="cancel-button" id="cancel-edit" type="button">Hủy</button>
+                </div>
+            </form>
+
+            <footer class="card-footer">Tỏa sáng theo cách của bạn <span aria-hidden="true">✨</span></footer>
+        </article>
+        <p class="page-note">Thông tin mẫu — hãy thay bằng thông tin của bạn nhé!</p>
+    </main>
+    <script src="vendor/qrcode.js" defer></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
