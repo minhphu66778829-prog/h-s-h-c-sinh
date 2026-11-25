@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#a54bd6">
-    <title>Hồ sơ học sinh | Minh Anh</title>
+    <title>Hồ sơ học sinh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,26 +25,21 @@
 
         <header class="page-heading">
             <span class="eyebrow">HỒ SƠ HỌC SINH</span>
-            <h1>Xin chào, <span id="greeting-name">Minh Anh</span>! <span class="wave-flower" aria-hidden="true">🌷</span></h1>
-            <p>Một chút thông tin về mình</p>
+            <h1>Xin chào, <span id="greeting-name">bạn</span>! <span class="wave-flower" aria-hidden="true">🌷</span></h1>
+            <p>Một chút thông tin đáng yêu về mình</p>
         </header>
 
         <article class="profile-card">
             <div class="portrait-wrap">
-                <img
-                    class="portrait"
-                    id="portrait"
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=500&amp;h=500&amp;q=85"
-                    alt="Ảnh chân dung của Nguyễn Minh Anh"
-                >
-                <span class="portrait-placeholder" id="portrait-placeholder" hidden aria-hidden="true">✿</span>
+                <img class="portrait" id="portrait" alt="Ảnh đại diện của học sinh" hidden>
+                <span class="portrait-placeholder" id="portrait-placeholder" aria-hidden="true">✿</span>
                 <span class="orbit" aria-hidden="true"><i>✦</i><i>✧</i><i>♡</i><i>✦</i></span>
-                <span class="online-badge" id="portrait-badge"><span aria-hidden="true">✦</span> Học sinh chăm ngoan</span>
+                <span class="online-badge" id="portrait-badge" hidden><span aria-hidden="true">✦</span> Học sinh chăm ngoan</span>
             </div>
 
             <div class="student-intro">
-                <h2 id="student-name">Nguyễn Minh Anh</h2>
-                <p class="student-meta"><span id="student-class">Lớp 10A2</span> <span id="meta-separator" aria-hidden="true">·</span> <span id="student-school">Trường THPT Ánh Dương</span></p>
+                <h2 id="student-name" class="is-empty">Vui lòng nhập tên</h2>
+                <p class="student-meta"><span id="student-class" class="is-empty">Vui lòng nhập lớp</span> <span id="meta-separator" aria-hidden="true">·</span> <span id="student-school" class="is-empty">Vui lòng nhập trường</span></p>
             </div>
 
             <section class="info-section" aria-labelledby="personal-title">
@@ -52,33 +47,33 @@
                 <dl class="info-list">
                     <div class="info-row">
                         <dt>Ngày sinh</dt>
-                        <dd id="student-birthday">12 tháng 5, 2009</dd>
+                        <dd id="student-birthday" class="is-empty">Vui lòng nhập ngày sinh</dd>
                     </div>
                     <div class="info-row">
                         <dt>Giới tính</dt>
-                        <dd id="student-gender">Nữ</dd>
+                        <dd id="student-gender" class="is-empty">Vui lòng chọn giới tính</dd>
                     </div>
                     <div class="info-row">
                         <dt>Sở thích</dt>
-                        <dd id="student-hobbies">Đọc sách, vẽ và nghe nhạc</dd>
+                        <dd id="student-hobbies" class="is-empty">Vui lòng nhập sở thích</dd>
                     </div>
                     <div class="info-row">
                         <dt>Môn yêu thích</dt>
-                        <dd id="student-subjects"><span class="subject-pill">Văn</span><span class="subject-pill">Sinh học</span></dd>
+                        <dd id="student-subjects" class="is-empty">Vui lòng nhập môn yêu thích</dd>
                     </div>
                 </dl>
             </section>
 
             <section class="contact-section" aria-labelledby="contact-title">
                 <h3 id="contact-title"><span class="section-icon" aria-hidden="true">♡</span> Thông tin liên hệ</h3>
-                <a class="contact-link" id="email-link" href="mailto:minhanh@example.com">
+                <a class="contact-link" id="email-link">
                     <span class="contact-icon" aria-hidden="true">✉</span>
-                    <span><small>Email</small><span id="student-email">minhanh@example.com</span></span>
+                    <span><small>Email</small><span id="student-email" class="is-empty">Vui lòng nhập email</span></span>
                     <span class="link-arrow" aria-hidden="true">↗</span>
                 </a>
-                <a class="contact-link" id="phone-link" href="tel:+84901234567">
+                <a class="contact-link" id="phone-link">
                     <span class="contact-icon" aria-hidden="true">☎</span>
-                    <span><small>Điện thoại</small><span id="student-phone">090 123 4567</span></span>
+                    <span><small>Điện thoại</small><span id="student-phone" class="is-empty">Vui lòng nhập số điện thoại</span></span>
                     <span class="link-arrow" aria-hidden="true">↗</span>
                 </a>
             </section>
@@ -124,16 +119,16 @@
                 <h3>Chỉnh sửa hồ sơ</h3>
                 <label class="form-field">
                     Họ và tên
-                    <input name="name" type="text" maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next">
+                    <input name="name" type="text" placeholder="Ví dụ: Nguyễn Văn An" maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next">
                 </label>
                 <div class="form-grid">
                     <label class="form-field">
                         Lớp
-                        <input name="className" type="text" maxlength="30">
+                        <input name="className" type="text" placeholder="Ví dụ: 10A1" maxlength="30">
                     </label>
                     <label class="form-field">
                         Trường
-                        <input name="school" type="text" maxlength="100">
+                        <input name="school" type="text" placeholder="Ví dụ: THPT Nguyễn Du" maxlength="100">
                     </label>
                 </div>
                 <div class="form-grid">
@@ -153,19 +148,19 @@
                 </div>
                 <label class="form-field">
                     Sở thích
-                    <input name="hobbies" type="text" maxlength="160">
+                    <input name="hobbies" type="text" placeholder="Ví dụ: đọc sách, vẽ, nghe nhạc" maxlength="160">
                 </label>
                 <label class="form-field">
                     Môn yêu thích <span class="field-hint">(ngăn cách bằng dấu phẩy)</span>
-                    <input name="subjects" type="text" maxlength="120">
+                    <input name="subjects" type="text" placeholder="Ví dụ: Toán, Văn, Anh" maxlength="120">
                 </label>
                 <label class="form-field">
                     Email
-                    <input name="email" type="email" maxlength="120" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next">
+                    <input name="email" type="email" placeholder="ten.cua.ban@gmail.com" maxlength="120" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next">
                 </label>
                 <label class="form-field">
                     Điện thoại
-                    <input name="phone" type="tel" maxlength="24" autocomplete="tel" inputmode="tel" enterkeyhint="next">
+                    <input name="phone" type="tel" placeholder="09xx xxx xxx" maxlength="24" autocomplete="tel" inputmode="tel" enterkeyhint="next">
                 </label>
                 <label class="form-field">
                     Đường dẫn ảnh chân dung
@@ -178,6 +173,7 @@
                 </label>
                 <img class="photo-preview" id="photo-preview" alt="Xem trước ảnh đại diện" hidden>
                 <button class="cancel-button photo-clear" id="clear-photo" type="button" hidden>Gỡ ảnh đại diện</button>
+                <button class="reset-button" id="reset-profile" type="button">🗑 Xóa toàn bộ hồ sơ</button>
                 <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
                 <div class="form-actions">
                     <button class="save-button" type="submit">Lưu thông tin</button>
@@ -187,7 +183,7 @@
 
             <footer class="card-footer">Tỏa sáng theo cách của bạn <span class="footer-spark" aria-hidden="true">✨</span></footer>
         </article>
-        <p class="page-note">Thông tin mẫu — hãy thay bằng thông tin của bạn nhé!</p>
+        <p class="page-note">Bấm “✎ Sửa thông tin” để điền hồ sơ của bạn nhé!</p>
     </main>
     <script src="vendor/qrcode.js" defer></script>
     <script src="app.js" defer></script>

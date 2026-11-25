@@ -1,15 +1,28 @@
 const STORAGE_KEY = "student-profile";
 const DEFAULT_PROFILE = {
-    name: "Nguyễn Minh Anh",
-    className: "10A2",
-    school: "THPT Ánh Dương",
-    birthday: "2009-05-12",
-    gender: "Nữ",
-    hobbies: "Đọc sách, vẽ và nghe nhạc",
-    subjects: "Văn, Sinh học",
-    email: "minhanh@example.com",
-    phone: "090 123 4567",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&h=500&q=85"
+    name: "",
+    className: "",
+    school: "",
+    birthday: "",
+    gender: "",
+    hobbies: "",
+    subjects: "",
+    email: "",
+    phone: "",
+    photo: ""
+};
+
+// Chữ nhắc hiển thị khi mục còn trống (chỉ trên trang của chính mình, không hiện trong link chia sẻ)
+const PLACEHOLDERS = {
+    name: "Vui lòng nhập tên",
+    className: "Vui lòng nhập lớp",
+    school: "Vui lòng nhập trường",
+    birthday: "Vui lòng nhập ngày sinh",
+    gender: "Vui lòng chọn giới tính",
+    hobbies: "Vui lòng nhập sở thích",
+    subjects: "Vui lòng nhập môn yêu thích",
+    email: "Vui lòng nhập email",
+    phone: "Vui lòng nhập số điện thoại"
 };
 
 const form = document.querySelector("#profile-form");
@@ -35,8 +48,9 @@ const shareableFields = Object.keys(DEFAULT_PROFILE);
 let pendingPhoto = null;
 let photoCleared = false;
 
-function setFieldVisibility(fields, profile) {
-    const hasValue = (field) => fields.has(field) && Boolean(profile[field].trim());
+function setFieldVisibility(fields, profile, isOwner) {
+    // Trang của mình: hiện mọi mục (mục trống hiện chữ nhắc). Trang chia sẻ: chỉ hiện mục có dữ liệu.
+    const hasValue = (field) => fields.has(field) && (isOwner || Boolean(profile[field].trim()));
     const show = (selector, field) => {
         document.querySelector(selector).hidden = !hasValue(field);
     };
@@ -77,7 +91,21 @@ function getProfile() {
     return profile;
 }
 
+function setText(selector, field, text) {
+    const element = document.querySelector(selector);
+    const isEmpty = !text;
+    element.textContent = isEmpty ? PLACEHOLDERS[field] : text;
+    element.classList.toggle("is-empty", isEmpty);
+}
+
+function setLink(selector, href) {
+    const link = document.querySelector(selector);
+    if (href) link.href = href;
+    else link.removeAttribute("href");
+}
+
 function renderProfile(profile, visibleFields) {
+    const isOwner = !visibleFields;
     const displayName = profile.name.trim();
     const nameParts = displayName.split(/\s+/);
     const fields = visibleFields || new Set(shareableFields);
@@ -86,33 +114,51 @@ function renderProfile(profile, visibleFields) {
     document.querySelector("#greeting-name").textContent = nameIsVisible
         ? nameParts.slice(-2).join(" ")
         : fields.has("name") ? "bạn" : "học sinh";
-    document.querySelector("#student-name").textContent = nameIsVisible ? displayName : "Hồ sơ học sinh";
-    document.querySelector("#student-class").textContent = `Lớp ${profile.className}`;
-    document.querySelector("#student-school").textContent = `Trường ${profile.school}`;
+    if (nameIsVisible || isOwner) {
+        setText("#student-name", "name", displayName);
+    } else {
+        document.querySelector("#student-name").textContent = "Hồ sơ học sinh";
+        document.querySelector("#student-name").classList.remove("is-empty");
+    }
+    const className = profile.className.trim();
+    const school = profile.school.trim();
+    setText("#student-class", "className", className && `Lớp ${className}`);
+    setText("#student-school", "school", school && `Trường ${school}`);
     const birthday = profile.birthday.trim();
     const birthdayDate = birthday ? new Date(`${birthday}T00:00:00`) : null;
-    document.querySelector("#student-birthday").textContent = birthdayDate && !Number.isNaN(birthdayDate.getTime())
+    setText("#student-birthday", "birthday", birthdayDate && !Number.isNaN(birthdayDate.getTime())
         ? new Intl.DateTimeFormat("vi-VN", {
             day: "numeric",
             month: "long",
             year: "numeric"
         }).format(birthdayDate)
-        : birthday;
-    document.querySelector("#student-gender").textContent = profile.gender;
-    document.querySelector("#student-hobbies").textContent = profile.hobbies;
-    document.querySelector("#student-email").textContent = profile.email;
-    document.querySelector("#email-link").href = `mailto:${profile.email}`;
-    document.querySelector("#student-phone").textContent = profile.phone;
-    document.querySelector("#phone-link").href = `tel:${profile.phone.replace(/[^\d+]/g, "")}`;
+        : birthday);
+    setText("#student-gender", "gender", profile.gender.trim());
+    setText("#student-hobbies", "hobbies", profile.hobbies.trim());
+    const email = profile.email.trim();
+    const phone = profile.phone.trim();
+    setText("#student-email", "email", email);
+    setLink("#email-link", email && `mailto:${email}`);
+    setText("#student-phone", "phone", phone);
+    setLink("#phone-link", phone && `tel:${phone.replace(/[^\d+]/g, "")}`);
 
     const subjects = document.querySelector("#student-subjects");
     subjects.replaceChildren();
-    profile.subjects.split(",").map((subject) => subject.trim()).filter(Boolean).forEach((subject) => {
+    const subjectList = profile.subjects.split(",").map((subject) => subject.trim()).filter(Boolean);
+    subjects.classList.toggle("is-empty", !subjectList.length);
+    if (!subjectList.length) subjects.textContent = PLACEHOLDERS.subjects;
+    subjectList.forEach((subject) => {
         const pill = document.createElement("span");
         pill.className = "subject-pill";
         pill.textContent = subject;
         subjects.append(pill);
     });
+
+    // Hồ sơ còn trống hoàn toàn → làm nút "Sửa thông tin" nổi bật để nhắc điền
+    document.body.classList.toggle(
+        "profile-empty",
+        isOwner && shareableFields.every((field) => !profile[field].trim())
+    );
 
     const portrait = document.querySelector(".portrait");
     const hasPhoto = Boolean(profile.photo.trim());
@@ -126,7 +172,7 @@ function renderProfile(profile, visibleFields) {
     }
     portrait.alt = nameIsVisible ? `Ảnh chân dung của ${displayName}` : "Ảnh đại diện của học sinh";
 
-    setFieldVisibility(fields, profile);
+    setFieldVisibility(fields, profile, isOwner);
 }
 
 function fillForm(profile) {
@@ -203,13 +249,64 @@ function compressImage(file) {
     });
 }
 
-function decodeSharedProfile() {
-    if (!window.location.hash.startsWith("#share=")) return null;
+// Định dạng link gọn (#s=): mã base36 cho biết các mục được chọn, theo sau là giá trị từng mục,
+// ngăn cách bằng ký tự \u001f, rồi mã hóa base64url. Không chứa tên trường nên ngắn hơn nhiều.
+const SHARE_SEPARATOR = "\u001f";
 
-    const encoded = window.location.hash.slice("#share=".length);
+function toBase64Url(text) {
+    const bytes = new TextEncoder().encode(text);
+    const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
+    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function fromBase64Url(encoded) {
     const binary = atob(encoded.replace(/-/g, "+").replace(/_/g, "/"));
     const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-    const payload = JSON.parse(new TextDecoder().decode(bytes));
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+}
+
+function encodeCompactShare(fields, sourceProfile) {
+    const mask = shareableFields.reduce(
+        (result, field, index) => (fields.includes(field) ? result | (1 << index) : result),
+        0
+    );
+    const values = shareableFields.filter((field) => fields.includes(field)).map((field) => {
+        const value = sourceProfile[field];
+        // Bỏ "https://" ở ảnh để link ngắn thêm; khi đọc sẽ tự thêm lại
+        return field === "photo" ? value.replace(/^https:\/\//, "") : value;
+    });
+    return toBase64Url([mask.toString(36), ...values].join(SHARE_SEPARATOR));
+}
+
+function decodeCompactShare(encoded) {
+    const [maskText, ...values] = fromBase64Url(encoded).split(SHARE_SEPARATOR);
+    const mask = Number.parseInt(maskText, 36);
+    if (!Number.isInteger(mask) || mask <= 0 || mask >= 1 << shareableFields.length) {
+        throw new Error("Đường dẫn chia sẻ không hợp lệ.");
+    }
+    const fields = shareableFields.filter((field, index) => mask & (1 << index));
+    if (values.length !== fields.length) throw new Error("Đường dẫn chia sẻ không hợp lệ.");
+    const sharedProfile = {};
+    fields.forEach((field, index) => {
+        const value = values[index];
+        sharedProfile[field] = field === "photo" && value && !/^https?:\/\//.test(value)
+            ? `https://${value}`
+            : value;
+    });
+    return { version: 1, fields, profile: sharedProfile };
+}
+
+function decodeSharedProfile() {
+    const hash = window.location.hash;
+    let payload;
+    if (hash.startsWith("#s=")) {
+        payload = decodeCompactShare(hash.slice("#s=".length));
+    } else if (hash.startsWith("#share=")) {
+        // Link kiểu cũ vẫn mở được
+        payload = JSON.parse(fromBase64Url(hash.slice("#share=".length)));
+    } else {
+        return null;
+    }
     const fields = payload.fields;
 
     if (
@@ -277,6 +374,20 @@ editToggle.addEventListener("click", () => {
 });
 
 document.querySelector("#cancel-edit").addEventListener("click", closeEditor);
+
+document.querySelector("#reset-profile").addEventListener("click", () => {
+    if (!window.confirm("Xóa toàn bộ thông tin đã lưu trên trình duyệt này? Không thể hoàn tác.")) return;
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+        showMessage(`Không thể xóa hồ sơ: ${error.message}`, true);
+        return;
+    }
+    profile = { ...DEFAULT_PROFILE };
+    renderProfile(profile);
+    closeEditor();
+    window.scrollTo({ top: 0, behavior: smoothScroll });
+});
 
 portrait.addEventListener("error", () => {
     portrait.hidden = true;
@@ -385,16 +496,10 @@ document.querySelector("#create-share").addEventListener("click", () => {
         return;
     }
 
-    const publicProfile = fields.reduce((result, field) => {
-        result[field] = profile[field];
-        return result;
-    }, {});
-    const payload = { version: 1, fields, profile: publicProfile };
-    const bytes = new TextEncoder().encode(JSON.stringify(payload));
-    const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
-    const encoded = btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
     const url = new URL(window.location.href);
-    url.hash = `share=${encoded}`;
+    url.search = "";
+    if (url.protocol !== "file:") url.pathname = url.pathname.replace(/index\.html$/, "");
+    url.hash = `s=${encodeCompactShare(fields, profile)}`;
 
     try {
         const qr = qrcode(0, "M");

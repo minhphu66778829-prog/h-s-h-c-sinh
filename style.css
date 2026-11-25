@@ -1170,7 +1170,8 @@ select {
     width: min(100%, 220px);
 }
 
-@media (max-width: 600px) {
+/* Cỡ chữ dễ đọc cho mọi màn hình */
+@media all {
     .page-heading h1 {
         font-size: 1.6rem;
     }
@@ -1231,6 +1232,66 @@ select {
         font-size: 0.76rem;
     }
 
+}
+
+/* Máy tính: thẻ rộng hơn, chữ to hơn */
+@media (min-width: 768px) {
+    .profile-page {
+        padding-top: 48px;
+        padding-bottom: 36px;
+    }
+
+    .page-heading h1 {
+        font-size: 2.3rem;
+    }
+
+    .page-heading p {
+        font-size: 1.05rem;
+    }
+
+    .profile-card {
+        --card-pad: 32px;
+        width: min(100%, 500px);
+        padding: 32px var(--card-pad) 0;
+    }
+
+    .card-footer {
+        margin-right: calc(-1 * var(--card-pad));
+        margin-left: calc(-1 * var(--card-pad));
+    }
+
+    .portrait-wrap {
+        width: 150px;
+        height: 150px;
+    }
+
+    body.is-shared .portrait-wrap {
+        width: 176px;
+        height: 176px;
+    }
+
+    .student-intro h2 {
+        font-size: 1.65rem;
+    }
+
+    .student-meta {
+        font-size: 0.95rem;
+    }
+
+    .info-row {
+        font-size: 0.95rem;
+    }
+
+    .info-row dt {
+        flex-basis: 120px;
+    }
+
+    .contact-link {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
     /* Nhẹ máy hơn trên điện thoại */
     .profile-card {
         background: rgba(255, 255, 255, 0.95);
@@ -1455,6 +1516,92 @@ select {
 .heart-button:focus-visible {
     outline: 3px solid rgba(255, 127, 191, 0.4);
     outline-offset: 3px;
+}
+
+/* ==========================================================
+   ✎ Hồ sơ trống: chữ nhắc "Vui lòng nhập…"
+   ========================================================== */
+
+.is-empty {
+    color: #b8a3c6 !important;
+    font-style: italic;
+    font-weight: 500 !important;
+}
+
+.student-intro h2.is-empty {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    font-size: 1.15rem;
+    animation: none;
+}
+
+/* Ảnh/ô trống phủ kín vòng cầu vồng bên dưới và giữ viền trắng */
+.portrait,
+.portrait-placeholder {
+    box-shadow: 0 0 0 5px #fff;
+}
+
+.portrait-placeholder {
+    background: linear-gradient(135deg, #fff0fa, #efe2ff);
+}
+
+.info-row dd.is-empty {
+    font-size: 0.92em;
+}
+
+.reset-button {
+    justify-self: center;
+    min-height: 44px;
+    border: 1px dashed #e7b9c9;
+    border-radius: 12px;
+    background: #fff7f9;
+    padding: 8px 16px;
+    color: #b33457;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.reset-button:hover,
+.reset-button:focus-visible {
+    background: #ffeef3;
+    outline: none;
+}
+
+/* Không có email/điện thoại thì không cho bấm mở ứng dụng */
+.contact-link:not([href]) {
+    cursor: default;
+}
+
+.contact-link:not([href]) .link-arrow {
+    display: none;
+}
+
+.contact-link:not([href]) .contact-icon {
+    opacity: 0.6;
+}
+
+/* Dòng nhắc cuối trang chỉ hiện khi hồ sơ còn trống (hoặc khi xem link chia sẻ) */
+body:not(.profile-empty):not(.is-shared) .page-note {
+    display: none;
+}
+
+.profile-empty .edit-toggle {
+    animation:
+        gradient-flow 6s ease infinite,
+        call-to-action 1.8s ease-in-out infinite;
+}
+
+@keyframes call-to-action {
+    0%, 100% {
+        box-shadow: 0 6px 18px rgba(153, 71, 173, 0.3), 0 0 0 0 rgba(216, 107, 181, 0.55);
+    }
+
+    60% {
+        box-shadow: 0 6px 18px rgba(153, 71, 173, 0.3), 0 0 0 10px rgba(216, 107, 181, 0);
+    }
 }
 
 @keyframes heartbeat {
