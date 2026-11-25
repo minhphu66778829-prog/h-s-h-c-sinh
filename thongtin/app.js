@@ -27,6 +27,10 @@ const shareMessage = document.querySelector("#share-message");
 const shareResult = document.querySelector("#share-result");
 const shareUrlInput = document.querySelector("#share-url");
 const openDesignerLink = document.querySelector("#open-qr-designer");
+const nativeShareButton = document.querySelector("#native-share");
+const heartButton = document.querySelector("#heart-button");
+const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+const smoothScroll = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 const shareableFields = Object.keys(DEFAULT_PROFILE);
 let pendingPhoto = null;
 let photoCleared = false;
@@ -241,6 +245,8 @@ try {
         renderProfile(profile, sharedProfile.fields);
         editToggle.hidden = true;
         shareToggle.hidden = true;
+        heartButton.hidden = false;
+        document.body.classList.add("is-shared");
         pageNote.textContent = "Bạn đang xem hồ sơ được chia sẻ. Chỉ các thông tin được chọn mới hiển thị.";
     } else {
         profile = getProfile();
@@ -262,7 +268,12 @@ editToggle.addEventListener("click", () => {
     editToggle.hidden = true;
     editToggle.setAttribute("aria-expanded", "true");
     showMessage("", false);
-    formFields.namedItem("name").focus();
+    if (isTouchDevice) {
+        // Trên điện thoại: cuộn tới form, không bật bàn phím ngay
+        form.scrollIntoView({ behavior: smoothScroll, block: "start" });
+    } else {
+        formFields.namedItem("name").focus();
+    }
 });
 
 document.querySelector("#cancel-edit").addEventListener("click", closeEditor);
@@ -342,6 +353,7 @@ shareToggle.addEventListener("click", () => {
     shareToggle.setAttribute("aria-expanded", "true");
     shareResult.hidden = true;
     shareMessage.textContent = "";
+    sharePanel.scrollIntoView({ behavior: smoothScroll, block: "start" });
 });
 
 sharePanel.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
@@ -398,6 +410,8 @@ document.querySelector("#create-share").addEventListener("click", () => {
         designerUrl.searchParams.set("target", url.href);
         openDesignerLink.href = designerUrl.href;
         shareResult.hidden = false;
+        nativeShareButton.hidden = typeof navigator.share !== "function";
+        shareResult.scrollIntoView({ behavior: smoothScroll, block: "nearest" });
         shareMessage.classList.remove("is-error");
         const notices = [];
         if (selectedFields.length !== fields.length) {
@@ -425,6 +439,30 @@ document.querySelector("#copy-share").addEventListener("click", async () => {
         shareMessage.textContent = `Không thể tự sao chép link (${error.message}); hãy sao chép đường dẫn trong ô phía trên.`;
         shareMessage.classList.add("is-error");
     }
+});
+
+nativeShareButton.addEventListener("click", async () => {
+    try {
+        await navigator.share({
+            title: document.title,
+            text: "Xem hồ sơ của mình nhé ✨",
+            url: shareUrlInput.value
+        });
+    } catch (error) {
+        if (error.name === "AbortError") return;
+        shareMessage.textContent = `Không thể mở bảng chia sẻ (${error.message}); hãy dùng nút Sao chép link.`;
+        shareMessage.classList.add("is-error");
+    }
+});
+
+let heartTimer;
+heartButton.addEventListener("click", () => {
+    const label = document.querySelector("#heart-label");
+    label.textContent = "Đã gửi tim! 💞";
+    window.clearTimeout(heartTimer);
+    heartTimer = window.setTimeout(() => {
+        label.textContent = "Thả tim cho bạn ấy";
+    }, 1600);
 });
 
 form.addEventListener("submit", (event) => {
@@ -456,4 +494,6 @@ form.addEventListener("submit", (event) => {
     profile = updatedProfile;
     renderProfile(profile);
     closeEditor();
+    document.querySelector(".profile-card").scrollIntoView({ behavior: smoothScroll, block: "start" });
+    document.dispatchEvent(new CustomEvent("profile:saved"));
 });

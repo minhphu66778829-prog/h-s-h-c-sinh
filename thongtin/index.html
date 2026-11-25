@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#a54bd6">
     <title>Hồ sơ học sinh | Minh Anh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+        <span class="blob blob-4"></span>
+    </div>
+    <canvas class="star-canvas" id="star-canvas" aria-hidden="true"></canvas>
     <main class="profile-page">
         <div class="sparkle sparkle-one" aria-hidden="true">✦</div>
         <div class="sparkle sparkle-two" aria-hidden="true">✧</div>
@@ -18,8 +25,8 @@
 
         <header class="page-heading">
             <span class="eyebrow">HỒ SƠ HỌC SINH</span>
-            <h1>Xin chào, <span id="greeting-name">Minh Anh</span>! <span aria-hidden="true">🌷</span></h1>
-            <p>Một chút thông tin về mình</p>
+            <h1>Xin chào, <span id="greeting-name">Minh Anh</span>! <span class="wave-flower" aria-hidden="true">🌷</span></h1>
+            <p>Một chút thông tin đáng yêu về mình</p>
         </header>
 
         <article class="profile-card">
@@ -31,6 +38,7 @@
                     alt="Ảnh chân dung của Nguyễn Minh Anh"
                 >
                 <span class="portrait-placeholder" id="portrait-placeholder" hidden aria-hidden="true">✿</span>
+                <span class="orbit" aria-hidden="true"><i>✦</i><i>✧</i><i>♡</i><i>✦</i></span>
                 <span class="online-badge" id="portrait-badge"><span aria-hidden="true">✦</span> Học sinh chăm ngoan</span>
             </div>
 
@@ -75,6 +83,7 @@
                 </a>
             </section>
 
+            <button class="heart-button" id="heart-button" type="button" hidden><span aria-hidden="true">💖</span> <span id="heart-label">Thả tim cho bạn ấy</span></button>
             <button class="share-toggle" id="share-toggle" type="button" aria-expanded="false" aria-controls="share-panel">↗ Tạo link &amp; mã QR</button>
             <section class="share-panel" id="share-panel" hidden aria-labelledby="share-title">
                 <h3 id="share-title">Chọn thông tin muốn chia sẻ</h3>
@@ -103,6 +112,7 @@
                         Link chia sẻ
                         <input id="share-url" type="text" readonly>
                     </label>
+                    <button class="save-button native-share" id="native-share" type="button" hidden>📤 Gửi qua Zalo, Messenger…</button>
                     <button class="copy-button" id="copy-share" type="button">Sao chép link</button>
                     <a class="designer-link" id="open-qr-designer" href="qr-designer.html" target="_blank" rel="noopener">Trang trang trí thẻ QR · tải PNG 54 × 85 mm</a>
                     <div class="qr-output" id="qr-output" aria-label="Mã QR cho link hồ sơ"></div>
@@ -114,7 +124,7 @@
                 <h3>Chỉnh sửa hồ sơ</h3>
                 <label class="form-field">
                     Họ và tên
-                    <input name="name" type="text" maxlength="80" autocomplete="name">
+                    <input name="name" type="text" maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next">
                 </label>
                 <div class="form-grid">
                     <label class="form-field">
@@ -151,15 +161,15 @@
                 </label>
                 <label class="form-field">
                     Email
-                    <input name="email" type="email" maxlength="120" autocomplete="email">
+                    <input name="email" type="email" maxlength="120" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next">
                 </label>
                 <label class="form-field">
                     Điện thoại
-                    <input name="phone" type="tel" maxlength="24" autocomplete="tel">
+                    <input name="phone" type="tel" maxlength="24" autocomplete="tel" inputmode="tel" enterkeyhint="next">
                 </label>
                 <label class="form-field">
                     Đường dẫn ảnh chân dung
-                    <input name="photo" type="url" maxlength="500">
+                    <input name="photo" type="url" maxlength="500" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="https://…">
                 </label>
                 <label class="form-field">
                     Hoặc chọn ảnh từ thiết bị
@@ -175,11 +185,12 @@
                 </div>
             </form>
 
-            <footer class="card-footer">Tỏa sáng theo cách của bạn <span aria-hidden="true">✨</span></footer>
+            <footer class="card-footer">Tỏa sáng theo cách của bạn <span class="footer-spark" aria-hidden="true">✨</span></footer>
         </article>
         <p class="page-note">Thông tin mẫu — hãy thay bằng thông tin của bạn nhé!</p>
     </main>
     <script src="vendor/qrcode.js" defer></script>
     <script src="app.js" defer></script>
+    <script src="effects.js" defer></script>
 </body>
 </html>
